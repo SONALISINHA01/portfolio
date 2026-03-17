@@ -67,15 +67,6 @@ export default function About() {
                         className="md:col-span-2 glass-card p-6 sm:p-8"
                         style={getRevealStyle(isVisible, "fade-right", 150)}
                     >
-                        <div className="mb-6">
-                            <div className="w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-lg shadow-purple-500/10">
-                                <img
-                                    src="/professional-photo.jpg"
-                                    alt="Professional profile"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                        </div>
                         <p className="text-gray-400 leading-relaxed mb-6">
                             I&apos;m Sonali, an engineer who loves building practical products
                             at the intersection of machine learning and software engineering.

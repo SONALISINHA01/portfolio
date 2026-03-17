@@ -41,6 +41,8 @@ const projects = [
         ],
         architecture: ["Data Source", "Preprocessing", "SMOTE", "Feature Engineering", "Model Training", "API Endpoint", "Frontend UI"],
         tags: ["Python", "XGBoost", "Scikit-learn", "SMOTE", "Streamlit", "Docker"],
+        previewImage: "/projects/employee-attrition-preview.png",
+        previewAlt: "Employee Attrition Predictor interface and explainability chart",
         github: "https://github.com/SONALISINHA01/Employee-Attrition",
         demo: "https://employee-attrition-69vr2kxea9pzhbaxeub2ks.streamlit.app/",
         color: "purple",
@@ -74,6 +76,8 @@ const projects = [
             },
         ],
         tags: ["Python", "Multithreading", "OS Concepts", "CPU Scheduling", "Tkinter"],
+        previewImage: "/projects/process-visualiser-preview.png",
+        previewAlt: "Process Visualiser Gantt chart timeline window",
         github: "https://github.com/Yamini-Soni/Process-Visualization-Tool",
         color: "cyan",
     },
@@ -151,6 +155,25 @@ export default function Projects() {
                                     </div>
 
                                     <p className="text-gray-400 leading-relaxed mb-8 max-w-3xl">{project.description}</p>
+
+                                    {/* Project preview */}
+                                    {project.previewImage && (
+                                        <div className="mb-8" style={getRevealStyle(isVisible, "fade-up", idx * 200 + 320)}>
+                                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/30 group">
+                                                <img
+                                                    src={project.previewImage}
+                                                    alt={project.previewAlt}
+                                                    className="w-full h-auto max-h-[520px] object-contain bg-slate-950/60 group-hover:scale-[1.01]"
+                                                    style={{ transitionProperty: "transform", transitionDuration: "0.45s" }}
+                                                />
+                                                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none">
+                                                    <span className={`inline-flex items-center gap-2 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full border ${project.color === "purple" ? "text-purple-200 border-purple-300/30 bg-purple-500/20" : "text-cyan-100 border-cyan-300/30 bg-cyan-500/20"}`}>
+                                                        {project.id === 1 ? "Live ML App Preview" : "Scheduler Visualization Preview"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Highlights Grid */}
                                     <div className="grid sm:grid-cols-2 gap-4 mb-8">
