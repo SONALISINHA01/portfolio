@@ -2,40 +2,98 @@
 
 import React from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
-import { CpuChipIcon, BriefcaseIcon, CodeBracketIcon } from "./Icons";
+import { CpuChipIcon, BriefcaseIcon, CodeBracketIcon, GlobeAltIcon } from "./Icons";
 
-const certifications = [
+type LearningItem = {
+    title: string;
+    org: string;
+    date: string;
+    description: string;
+    link?: string;
+    icon: React.ReactNode;
+    borderColor: string;
+    badgeColor: string;
+};
+
+const certifications: LearningItem[] = [
+    {
+        title: "Machine Learning Made Easy",
+        org: "Lovely Professional University",
+        date: "Aug 2025",
+        description: "Practical machine learning foundations focused on model selection, evaluation, and real-world problem solving.",
+        link: "https://drive.google.com/file/d/1khdYp_IcIMXanxsUPJqGhzEfPqAAvK53/view",
+        icon: <CpuChipIcon className="w-6 h-6 text-purple-300" />,
+        borderColor: "border-purple-500/20",
+        badgeColor: "from-purple-500 to-fuchsia-500",
+    },
+    {
+        title: "Computer Communications",
+        org: "University of Colorado System",
+        date: "Aug 2024",
+        description: "Covered networking fundamentals including protocols, layered architectures, and communication models.",
+        link: "https://www.coursera.org/account/accomplishments/specialization/HEKZJTZ86CMP",
+        icon: <CodeBracketIcon className="w-6 h-6 text-cyan-300" />,
+        borderColor: "border-cyan-500/20",
+        badgeColor: "from-cyan-500 to-blue-500",
+    },
+    {
+        title: "Responsive Web Design",
+        org: "Free Code Camp",
+        date: "Nov 2023",
+        description: "Built modern responsive interfaces with accessibility-first layout practices and semantic HTML/CSS.",
+        link: "https://www.freecodecamp.org/certification/fccade6e742-b0fc-483f-829f-643a1d90f973/responsive-web-design",
+        icon: <CodeBracketIcon className="w-6 h-6 text-emerald-300" />,
+        borderColor: "border-emerald-500/20",
+        badgeColor: "from-emerald-500 to-teal-500",
+    },
+];
+
+const training: LearningItem[] = [
     {
         title: "Amazon ML Summer School",
-        issuer: "Amazon · 2024",
-        description: "Intensive program covering fundamentals of ML including supervised/unsupervised learning, deep learning, and MLOps.",
-        highlight: "Implemented Backpropagation from scratch — understanding gradient flow and weight updates at the mathematical level.",
-        icon: <CpuChipIcon className="w-7 h-7 text-amber-400" />,
-        color: "from-amber-500 to-orange-500",
+        org: "Amazon",
+        date: "2024",
+        description: "Intensive training on supervised and unsupervised learning, deep learning fundamentals, and MLOps workflows.",
+        icon: <CpuChipIcon className="w-6 h-6 text-amber-300" />,
         borderColor: "border-amber-500/20",
+        badgeColor: "from-amber-500 to-orange-500",
     },
+];
+
+const extracurricular: LearningItem[] = [
     {
         title: "McKinsey Forward Program",
-        issuer: "McKinsey & Company · 2024",
-        description: "Professional development program focusing on problem-solving frameworks, structured thinking, and business communication.",
-        highlight: "Developed structured problem-solving and stakeholder communication skills — essential for L4/L5 levels at FAANG.",
-        icon: <BriefcaseIcon className="w-7 h-7 text-blue-400" />,
-        color: "from-blue-500 to-indigo-500",
+        org: "McKinsey & Company",
+        date: "2024",
+        description: "Structured program that sharpened communication, problem-framing, and professional decision-making skills.",
+        icon: <BriefcaseIcon className="w-6 h-6 text-blue-300" />,
         borderColor: "border-blue-500/20",
+        badgeColor: "from-blue-500 to-indigo-500",
     },
+];
+
+const experience: LearningItem[] = [
     {
-        title: "Python for Data Science",
-        issuer: "NPTEL/IIT · 2023",
-        description: "Comprehensive course covering Python fundamentals, data manipulation with Pandas, and statistical analysis.",
-        highlight: "Built a strong foundation in Pythonic data processing and numerical computing.",
-        icon: <CodeBracketIcon className="w-7 h-7 text-emerald-400" />,
-        color: "from-emerald-500 to-teal-500",
-        borderColor: "border-emerald-500/20",
+        title: "Open Source Contributor - Research Paper Organizer",
+        org: "GirlScript Summer of Code (GSSOC)",
+        date: "2025",
+        description: "Contributed via reviewed PRs, collaborated with maintainers, and followed production-level Git workflow practices.",
+        link: "https://github.com/SONALISINHA01/Research-Paper-Organizer",
+        icon: <GlobeAltIcon className="w-6 h-6 text-pink-300" />,
+        borderColor: "border-pink-500/20",
+        badgeColor: "from-pink-500 to-purple-500",
     },
 ];
 
 export default function Certifications() {
     const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.1 });
+
+    const sections = [
+        { title: "Certifications", items: certifications },
+        { title: "Training", items: training },
+        { title: "Extracurricular", items: extracurricular },
+        { title: "Experience", items: experience },
+    ];
 
     return (
         <section id="certifications" ref={sectionRef} className="relative py-24 md:py-32 px-4 sm:px-6">
@@ -45,54 +103,58 @@ export default function Certifications() {
                 <div style={getRevealStyle(isVisible, "fade-up", 0)}>
                     <span className="text-sm font-medium tracking-widest uppercase text-purple-400 mb-3 block">Learning</span>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-                        Certifications & <span className="gradient-text">Growth</span>
+                        Certifications, Training & <span className="gradient-text">Experience</span>
                     </h2>
-                    <p className="text-gray-500 max-w-xl text-base sm:text-lg mb-16">
-                        Continuous learning from industry leaders and top institutions.
+                    <p className="text-gray-500 max-w-2xl text-base sm:text-lg mb-16">
+                        A curated record of formal certifications, focused training programs, extracurricular learning, and open source experience.
                     </p>
                 </div>
 
-                {/* Timeline */}
-                <div className="relative max-w-3xl">
-                    <div className="timeline-line" />
-
-                    <div className="space-y-12">
-                        {certifications.map((cert, i) => (
-                            <div
-                                key={cert.title}
-                                className="relative pl-14 sm:pl-16"
-                                style={getRevealStyle(isVisible, "fade-left", i * 200 + 200)}
-                            >
-                                <div className="timeline-dot" style={{ top: "1.5rem" }} />
-
-                                <div className={`glass-card p-6 sm:p-8 border ${cert.borderColor}`}>
-                                    <div className="flex items-start gap-4 mb-4">
-                                        <span>{cert.icon}</span>
-                                        <div className="flex-1">
-                                            <div className="flex items-start justify-between gap-4 flex-wrap">
-                                                <div>
-                                                    <h3 className="text-lg sm:text-xl font-bold text-white">{cert.title}</h3>
-                                                    <p className="text-sm text-gray-500">{cert.issuer}</p>
+                <div className="space-y-12">
+                    {sections.map((section, sectionIdx) => (
+                        <div key={section.title} style={getRevealStyle(isVisible, "fade-up", sectionIdx * 120 + 120)}>
+                            <h3 className="text-lg sm:text-xl font-semibold text-white mb-5">{section.title}</h3>
+                            <div className="grid gap-4">
+                                {section.items.map((item, itemIdx) => (
+                                    <div
+                                        key={item.title}
+                                        className={`glass-card p-5 sm:p-6 border ${item.borderColor}`}
+                                        style={getRevealStyle(isVisible, "fade-left", sectionIdx * 160 + itemIdx * 100 + 200)}
+                                    >
+                                        <div className="flex items-start gap-3.5 sm:gap-4">
+                                            <span className="shrink-0">{item.icon}</span>
+                                            <div className="flex-1">
+                                                <div className="flex items-start justify-between gap-3 flex-wrap mb-2">
+                                                    <div>
+                                                        <h4 className="text-base sm:text-lg font-bold text-white">{item.title}</h4>
+                                                        <p className="text-sm text-gray-500">{item.org}</p>
+                                                    </div>
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${item.badgeColor} text-white shrink-0`}>
+                                                        {item.date}
+                                                    </span>
                                                 </div>
-                                                <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${cert.color} text-white shrink-0`}>
-                                                    Certified
-                                                </span>
+                                                <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                                                {item.link && (
+                                                    <a
+                                                        href={item.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-2 mt-3 text-sm text-cyan-300 hover:text-cyan-200"
+                                                        style={{ transitionProperty: "color", transitionDuration: "0.2s" }}
+                                                    >
+                                                        View Credential
+                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                        </svg>
+                                                    </a>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
-
-                                    <p className="text-gray-400 text-sm leading-relaxed mb-4">{cert.description}</p>
-
-                                    <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                                        <p className="text-sm">
-                                            <span className="text-purple-400 font-medium">Key takeaway: </span>
-                                            <span className="text-gray-400">{cert.highlight}</span>
-                                        </p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

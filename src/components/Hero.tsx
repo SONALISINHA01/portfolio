@@ -196,13 +196,6 @@ export default function Hero() {
                     </a>
                 </div>
 
-                {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600">
-                    <span className="text-xs tracking-widest uppercase">Scroll</span>
-                    <div className="w-5 h-8 rounded-full border border-gray-700 flex justify-center pt-1.5">
-                        <div className="w-1 h-2 rounded-full bg-gray-500 animate-bounce" />
-                    </div>
-                </div>
             </div>
         </section>
     );

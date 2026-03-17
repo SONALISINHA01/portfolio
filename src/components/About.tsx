@@ -25,11 +25,16 @@ const skills = [
     { name: "Docker", category: "tools" },
     { name: "Linux", category: "tools" },
     { name: "VS Code", category: "tools" },
-    { name: "Communication", category: "soft" },
-    { name: "Team Collaboration", category: "soft" },
-    { name: "Problem Solving", category: "soft" },
-    { name: "Adaptability", category: "soft" },
-    { name: "Leadership", category: "soft" },
+];
+
+const softSkills = [
+    "Communication",
+    "Team Collaboration",
+    "Problem Solving",
+    "Adaptability",
+    "Leadership",
+    "Ownership",
+    "Time Management",
 ];
 
 const categoryColors: Record<string, string> = {
@@ -38,7 +43,6 @@ const categoryColors: Record<string, string> = {
     ml: "from-pink-500/20 to-pink-600/10 border-pink-500/20 text-pink-300",
     systems: "from-amber-500/20 to-amber-600/10 border-amber-500/20 text-amber-300",
     tools: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/20 text-emerald-300",
-    soft: "from-rose-500/20 to-rose-600/10 border-rose-500/20 text-rose-300",
 };
 
 export default function About() {
@@ -141,10 +145,29 @@ export default function About() {
                                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                                 Tools
                             </span>
-                            <span className="flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-rose-500" />
+                        </div>
+
+                        <div className="mt-10" style={getRevealStyle(isVisible, "fade-up", 1300)}>
+                            <h4 className="text-sm font-semibold uppercase tracking-wider text-rose-300 mb-4">
                                 Soft Skills
-                            </span>
+                            </h4>
+                            <div className="flex flex-wrap gap-2.5">
+                                {softSkills.map((skill, i) => (
+                                    <span
+                                        key={skill}
+                                        className="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border border-rose-400/25 bg-gradient-to-br from-rose-500/20 to-rose-600/10 text-rose-200"
+                                        style={{
+                                            opacity: isVisible ? 1 : 0,
+                                            transform: isVisible ? "translateY(0)" : "translateY(10px)",
+                                            transitionProperty: "opacity, transform",
+                                            transitionDuration: "0.45s",
+                                            transitionDelay: isVisible ? `${i * 45 + 1350}ms` : "0ms",
+                                        }}
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
