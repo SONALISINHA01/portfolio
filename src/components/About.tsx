@@ -25,6 +25,11 @@ const skills = [
     { name: "Docker", category: "tools" },
     { name: "Linux", category: "tools" },
     { name: "VS Code", category: "tools" },
+    { name: "Communication", category: "soft" },
+    { name: "Team Collaboration", category: "soft" },
+    { name: "Problem Solving", category: "soft" },
+    { name: "Adaptability", category: "soft" },
+    { name: "Leadership", category: "soft" },
 ];
 
 const categoryColors: Record<string, string> = {
@@ -33,6 +38,7 @@ const categoryColors: Record<string, string> = {
     ml: "from-pink-500/20 to-pink-600/10 border-pink-500/20 text-pink-300",
     systems: "from-amber-500/20 to-amber-600/10 border-amber-500/20 text-amber-300",
     tools: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/20 text-emerald-300",
+    soft: "from-rose-500/20 to-rose-600/10 border-rose-500/20 text-rose-300",
 };
 
 export default function About() {
@@ -61,6 +67,15 @@ export default function About() {
                         className="md:col-span-2 glass-card p-6 sm:p-8"
                         style={getRevealStyle(isVisible, "fade-right", 150)}
                     >
+                        <div className="mb-6">
+                            <div className="w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-lg shadow-purple-500/10">
+                                <img
+                                    src="/professional-photo.jpg"
+                                    alt="Professional profile"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        </div>
                         <p className="text-gray-400 leading-relaxed mb-6">
                             I&apos;m a passionate ML Engineer and Systems Programmer who
                             bridges the gap between &quot;data science notebooks&quot; and
@@ -134,6 +149,10 @@ export default function About() {
                             <span className="flex items-center gap-1.5">
                                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                                 Tools
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-rose-500" />
+                                Soft Skills
                             </span>
                         </div>
                     </div>
