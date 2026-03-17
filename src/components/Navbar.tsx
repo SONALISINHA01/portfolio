@@ -8,7 +8,6 @@ const navLinks = [
     { label: "DSA", href: "#dsa" },
     { label: "Open Source", href: "#opensource" },
     { label: "Certifications", href: "#certifications" },
-    { label: "Blog", href: "#blog" },
     { label: "Contact", href: "#contact" },
 ];
 

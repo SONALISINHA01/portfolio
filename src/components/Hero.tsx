@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import TiltCard from "./TiltCard";
 
 const roles = [
     "Machine Learning Engineer",
@@ -109,6 +110,26 @@ export default function Hero() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-gray-300 mb-8">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     Open to Opportunities
+                </div>
+
+                {/* Profile photo with mouse microinteraction */}
+                <div className="mb-6 sm:mb-8 flex justify-center" style={{ perspective: "1000px" }}>
+                    <TiltCard
+                        className="relative rounded-[1.7rem]"
+                        glareColor="rgba(6, 182, 212, 0.18)"
+                        tiltAmount={10}
+                    >
+                        <div className="relative w-32 h-32 sm:w-36 sm:h-36 p-[3px] rounded-[1.7rem] bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 shadow-[0_14px_40px_rgba(6,182,212,0.18)]">
+                            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-xl pointer-events-none" />
+                            <div className="relative w-full h-full rounded-[1.45rem] overflow-hidden border border-white/20 bg-black/30">
+                                <img
+                                    src="/professional-photo.jpg"
+                                    alt="Sonali profile photo"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        </div>
+                    </TiltCard>
                 </div>
 
                 {/* Name */}
