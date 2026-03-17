@@ -115,13 +115,21 @@ export default function Hero() {
                 {/* Profile photo with mouse microinteraction */}
                 <div className="mb-6 sm:mb-8 flex justify-center" style={{ perspective: "1000px" }}>
                     <TiltCard
-                        className="relative rounded-[1.7rem]"
+                        className="relative rounded-full"
                         glareColor="rgba(6, 182, 212, 0.18)"
                         tiltAmount={10}
                     >
-                        <div className="relative w-32 h-32 sm:w-36 sm:h-36 p-[3px] rounded-[1.7rem] bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 shadow-[0_14px_40px_rgba(6,182,212,0.18)]">
-                            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-xl pointer-events-none" />
-                            <div className="relative w-full h-full rounded-[1.45rem] overflow-hidden border border-white/20 bg-black/30">
+                        <div className="relative w-32 h-32 sm:w-36 sm:h-36 p-[3px] rounded-full bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 shadow-[0_14px_40px_rgba(6,182,212,0.18)]">
+                            <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-xl pointer-events-none" />
+
+                            <div
+                                className="absolute -inset-2 rounded-full border border-cyan-300/30"
+                                style={{ animation: "spin 9s linear infinite" }}
+                            >
+                                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.9)]" />
+                            </div>
+
+                            <div className="relative w-full h-full rounded-full overflow-hidden border border-white/20 bg-black/30">
                                 <img
                                     src="/professional-photo.jpg"
                                     alt="Sonali profile photo"
