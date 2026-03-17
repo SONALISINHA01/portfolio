@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
-import { CpuChipIcon, BriefcaseIcon, CodeBracketIcon, GlobeAltIcon } from "./Icons";
+import { CpuChipIcon, BriefcaseIcon, CodeBracketIcon } from "./Icons";
 
 type LearningItem = {
     title: string;
@@ -72,27 +72,13 @@ const extracurricular: LearningItem[] = [
     },
 ];
 
-const experience: LearningItem[] = [
-    {
-        title: "Open Source Contributor - Research Paper Organizer",
-        org: "GirlScript Summer of Code (GSSOC)",
-        date: "2025",
-        description: "Contributed via reviewed PRs, collaborated with maintainers, and followed production-level Git workflow practices.",
-        link: "https://github.com/SONALISINHA01/Research-Paper-Organizer",
-        icon: <GlobeAltIcon className="w-6 h-6 text-pink-300" />,
-        borderColor: "border-pink-500/20",
-        badgeColor: "from-pink-500 to-purple-500",
-    },
-];
-
 export default function Certifications() {
     const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.1 });
 
     const sections = [
-        { title: "Certifications", items: certifications },
         { title: "Training", items: training },
+        { title: "Certifications", items: certifications },
         { title: "Extracurricular", items: extracurricular },
-        { title: "Experience", items: experience },
     ];
 
     return (
@@ -103,10 +89,10 @@ export default function Certifications() {
                 <div style={getRevealStyle(isVisible, "fade-up", 0)}>
                     <span className="text-sm font-medium tracking-widest uppercase text-purple-400 mb-3 block">Learning</span>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-                        Certifications, Training & <span className="gradient-text">Experience</span>
+                        Training & <span className="gradient-text">Certifications</span>
                     </h2>
                     <p className="text-gray-500 max-w-2xl text-base sm:text-lg mb-16">
-                        A curated record of formal certifications, focused training programs, extracurricular learning, and open source experience.
+                        Focused technical training, formal certifications, and growth experiences that shape my engineering approach.
                     </p>
                 </div>
 
@@ -118,7 +104,7 @@ export default function Certifications() {
                                 {section.items.map((item, itemIdx) => (
                                     <div
                                         key={item.title}
-                                        className={`glass-card p-5 sm:p-6 border ${item.borderColor}`}
+                                        className={`glass-card p-5 sm:p-6 border ${item.borderColor} hover:scale-[1.01] hover:shadow-lg hover:shadow-purple-500/10`}
                                         style={getRevealStyle(isVisible, "fade-left", sectionIdx * 160 + itemIdx * 100 + 200)}
                                     >
                                         <div className="flex items-start gap-3.5 sm:gap-4">
