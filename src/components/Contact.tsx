@@ -272,15 +272,9 @@ export default function Contact() {
             <div className="max-w-6xl mx-auto mt-16 md:mt-24 pt-8 border-t border-white/5">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
                     <p>
-                        © 2025 Sonali. Built with{" "}
+                        © 2026 Sonali. Built with{" "}
                         <span className="text-purple-400">Next.js</span> &{" "}
                         <span className="text-cyan-400">Tailwind CSS</span>
-                    </p>
-                    <p>
-                        Designed for{" "}
-                        <span className="gradient-text font-medium">
-                            Production Excellence
-                        </span>
                     </p>
                 </div>
             </div>
