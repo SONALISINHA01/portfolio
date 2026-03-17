@@ -52,7 +52,7 @@ const training: LearningItem[] = [
     {
         title: "Amazon ML Summer School",
         org: "Amazon",
-        date: "2024",
+        date: "Jul 2025 - Sep 2025",
         description: "Intensive training on supervised and unsupervised learning, deep learning fundamentals, and MLOps workflows.",
         icon: <CpuChipIcon className="w-6 h-6 text-amber-300" />,
         borderColor: "border-amber-500/20",
