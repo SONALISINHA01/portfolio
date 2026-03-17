@@ -77,24 +77,24 @@ export default function About() {
                             </div>
                         </div>
                         <p className="text-gray-400 leading-relaxed mb-6">
-                            I&apos;m a passionate ML Engineer and Systems Programmer who
-                            bridges the gap between &quot;data science notebooks&quot; and
-                            &quot;production engineering.&quot;
+                            I&apos;m Sonali, an engineer who loves building practical products
+                            at the intersection of machine learning and software engineering.
+                            I care about solutions that are not just accurate, but maintainable
+                            and useful in the real world.
                         </p>
                         <p className="text-gray-400 leading-relaxed mb-6">
                             With <span className="text-white font-medium">500+ DSA
-                                problems</span> solved and hands-on experience in building ML
-                            pipelines, I focus on writing clean, scalable, and
-                            production-ready code.
+                                problems</span> solved and hands-on ML pipeline experience,
+                            I bring a problem-solving mindset to every build: thoughtful
+                            architecture, clean code, and dependable delivery.
                         </p>
                         <p className="text-gray-400 leading-relaxed">
-                            My work spans from{" "}
-                            <span className="text-cyan-400">XGBoost prediction models</span>{" "}
+                            My projects range from{" "}
+                            <span className="text-cyan-400">XGBoost-based prediction systems</span>{" "}
                             to{" "}
-                            <span className="text-purple-400">
-                                multithreaded OS simulators
-                            </span>
-                            , always with an emphasis on engineering excellence.
+                            <span className="text-purple-400">multithreaded OS simulators</span>,
+                            and each one reflects how I think: structured, curious, and
+                            focused on impact.
                         </p>
                     </div>
 

@@ -25,6 +25,66 @@ body {
   overflow-x: hidden;
 }
 
+html[data-theme="light"] body {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 50%, #f5f3ff 100%);
+  color: #0f172a;
+}
+
+html[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .glass-strong {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] .glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(248, 250, 252, 0.85) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .glass-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.92) 100%);
+  border-color: rgba(124, 58, 237, 0.32);
+  box-shadow: 0 8px 30px rgba(30, 41, 59, 0.1);
+}
+
+html[data-theme="light"] .text-white {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .text-gray-700 {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .text-gray-600 {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .text-gray-500 {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .text-gray-400,
+html[data-theme="light"] .text-gray-300 {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+html[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -15,12 +15,34 @@ const navLinks = [
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [theme, setTheme] = useState<"dark" | "light">("dark");
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        const initialTheme =
+            savedTheme === "light" || savedTheme === "dark"
+                ? savedTheme
+                : systemPrefersLight
+                    ? "light"
+                    : "dark";
+
+        setTheme(initialTheme);
+        document.documentElement.setAttribute("data-theme", initialTheme);
+    }, []);
+
+    const toggleTheme = () => {
+        const nextTheme = theme === "dark" ? "light" : "dark";
+        setTheme(nextTheme);
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+    };
 
     return (
         <nav
@@ -55,6 +77,25 @@ export default function Navbar() {
                         </a>
                     ))}
                 </div>
+
+                <button
+                    onClick={toggleTheme}
+                    className="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-xl glass text-gray-300 hover:text-white hover:bg-white/10"
+                    style={{ transitionProperty: "background-color, color, transform", transitionDuration: "0.25s" }}
+                    aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                    title={theme === "dark" ? "Light mode" : "Dark mode"}
+                >
+                    {theme === "dark" ? (
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="4" />
+                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" />
+                        </svg>
+                    ) : (
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M21 12.79A9 9 0 1111.21 3c.5 0 .79.54.53.97A7 7 0 0019.03 13.26c.43-.26.97.03.97.53z" />
+                        </svg>
+                    )}
+                </button>
 
                 {/* Resume Button (Desktop) */}
                 <a
@@ -97,6 +138,27 @@ export default function Navbar() {
                     </a>
                 ))}
                 <div className="px-6 pt-2 pb-2">
+                    <button
+                        onClick={toggleTheme}
+                        className="mb-3 w-full flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-xl glass text-gray-300 hover:text-white hover:bg-white/10"
+                    >
+                        {theme === "dark" ? (
+                            <>
+                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="4" />
+                                    <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" />
+                                </svg>
+                                Light mode
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 12.79A9 9 0 1111.21 3c.5 0 .79.54.53.97A7 7 0 0019.03 13.26c.43-.26.97.03.97.53z" />
+                                </svg>
+                                Dark mode
+                            </>
+                        )}
+                    </button>
                     <a
                         href="#contact"
                         onClick={() => setMobileOpen(false)}
