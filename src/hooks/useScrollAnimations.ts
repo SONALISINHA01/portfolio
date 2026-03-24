@@ -10,10 +10,6 @@ interface UseScrollRevealOptions {
     once?: boolean;
 }
 
-/**
- * Hook for scroll-triggered section visibility.
- * Returns a ref and isVisible boolean.
- */
 export function useScrollReveal(options: UseScrollRevealOptions = {}) {
     const { threshold = 0.15, rootMargin = "0px", once = true } = options;
     const ref = useRef<HTMLElement>(null);
@@ -38,10 +34,6 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
     return { ref, isVisible };
 }
 
-/**
- * Hook for parallax scrolling effect.
- * Returns a ref and a y-offset that changes with scroll.
- */
 export function useParallax(speed: number = 0.3) {
     const ref = useRef<HTMLDivElement>(null);
     const [offset, setOffset] = useState(0);
@@ -51,7 +43,6 @@ export function useParallax(speed: number = 0.3) {
             if (!ref.current) return;
             const rect = ref.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
-            // Only compute when element is near or in viewport
             if (rect.top < windowHeight + 200 && rect.bottom > -200) {
                 const center = rect.top + rect.height / 2;
                 const fromCenter = center - windowHeight / 2;
@@ -66,9 +57,6 @@ export function useParallax(speed: number = 0.3) {
     return { ref, offset };
 }
 
-/**
- * Returns inline styles for scroll-reveal animations.
- */
 export function getRevealStyle(
     isVisible: boolean,
     animation: AnimationType = "fade-up",
@@ -102,10 +90,6 @@ export function getRevealStyle(
     };
 }
 
-/**
- * Hook for tracking scroll progress within a section.
- * Returns 0-1 progress based on how far through the section the user has scrolled.
- */
 export function useSectionProgress() {
     const ref = useRef<HTMLElement>(null);
     const [progress, setProgress] = useState(0);

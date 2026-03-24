@@ -1,30 +1,31 @@
 "use client";
 
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
+import SkillTooltip from "./SkillTooltip";
 
 const skills = [
-    { name: "Python", category: "lang" },
-    { name: "C/C++", category: "lang" },
-    { name: "JavaScript", category: "lang" },
-    { name: "TypeScript", category: "lang" },
-    { name: "SQL", category: "lang" },
-    { name: "Flask", category: "framework" },
-    { name: "FastAPI", category: "framework" },
-    { name: "React", category: "framework" },
-    { name: "Next.js", category: "framework" },
-    { name: "XGBoost", category: "ml" },
-    { name: "Scikit-learn", category: "ml" },
-    { name: "Pandas", category: "ml" },
-    { name: "NumPy", category: "ml" },
-    { name: "SMOTE", category: "ml" },
-    { name: "Matplotlib", category: "ml" },
-    { name: "Streamlit", category: "ml" },
-    { name: "Multithreading", category: "systems" },
-    { name: "CPU Scheduling", category: "systems" },
-    { name: "Git/GitHub", category: "tools" },
-    { name: "Docker", category: "tools" },
-    { name: "Linux", category: "tools" },
-    { name: "VS Code", category: "tools" },
+    { name: "Python", category: "lang", tooltip: "Primary language for ML pipelines, data analysis, and backend services" },
+    { name: "C/C++", category: "lang", tooltip: "Systems programming, memory management, and performance-critical code" },
+    { name: "JavaScript", category: "lang", tooltip: "Frontend interactivity, Node.js APIs, and full-stack development" },
+    { name: "TypeScript", category: "lang", tooltip: "Type-safe React/Next.js applications with compile-time error checking" },
+    { name: "SQL", category: "lang", tooltip: "Relational data modeling, complex queries, and database optimization" },
+    { name: "Flask", category: "framework", tooltip: "Lightweight Python web framework for ML model serving APIs" },
+    { name: "FastAPI", category: "framework", tooltip: "Async Python APIs with automatic OpenAPI docs and validation" },
+    { name: "React", category: "framework", tooltip: "Component-based UI with hooks, context, and state management" },
+    { name: "Next.js", category: "framework", tooltip: "Full-stack React framework with SSR, SSG, and API routes" },
+    { name: "XGBoost", category: "ml", tooltip: "Gradient-boosted trees for tabular prediction — 89% precision on attrition model" },
+    { name: "Scikit-learn", category: "ml", tooltip: "Classical ML: classification, regression, pipelines, and model evaluation" },
+    { name: "Pandas", category: "ml", tooltip: "Data wrangling, feature engineering, and exploratory data analysis" },
+    { name: "NumPy", category: "ml", tooltip: "Vectorized numerical computing and array operations for ML" },
+    { name: "SMOTE", category: "ml", tooltip: "Synthetic Minority Oversampling for handling imbalanced datasets" },
+    { name: "Matplotlib", category: "ml", tooltip: "Data visualization, model performance charts, and EDA plots" },
+    { name: "Streamlit", category: "ml", tooltip: "Interactive ML demo apps — used for the Employee Attrition predictor" },
+    { name: "Multithreading", category: "systems", tooltip: "Concurrent programming with mutex locks and thread synchronization" },
+    { name: "CPU Scheduling", category: "systems", tooltip: "OS-level process scheduling algorithms — built a real-time visualizer" },
+    { name: "Git/GitHub", category: "tools", tooltip: "Version control, branching strategies, code reviews, and CI/CD" },
+    { name: "Docker", category: "tools", tooltip: "Containerized deployments with Dockerfiles and compose workflows" },
+    { name: "Linux", category: "tools", tooltip: "Command-line proficiency, shell scripting, and server administration" },
+    { name: "VS Code", category: "tools", tooltip: "Primary IDE with extensions for Python, TypeScript, and Docker" },
 ];
 
 const softSkills = [
@@ -55,7 +56,6 @@ export default function About() {
             className="relative py-24 md:py-32 px-4 sm:px-6"
         >
             <div className="max-w-6xl mx-auto">
-                {/* Section header */}
                 <div style={getRevealStyle(isVisible, "fade-up", 0)}>
                     <span className="text-sm font-medium tracking-widest uppercase text-purple-400 mb-3 block">
                         About Me
@@ -66,9 +66,8 @@ export default function About() {
                 </div>
 
                 <div className="grid md:grid-cols-5 gap-8">
-                    {/* Bio */}
                     <div
-                        className="md:col-span-2 glass-card p-6 sm:p-8"
+                        className="md:col-span-2 glass-card glass-card--about p-6 sm:p-8"
                         style={getRevealStyle(isVisible, "fade-right", 150)}
                     >
                         <p className="text-gray-400 leading-relaxed mb-6">
@@ -93,7 +92,6 @@ export default function About() {
                         </p>
                     </div>
 
-                    {/* Skills Grid */}
                     <div
                         className="md:col-span-3"
                         style={getRevealStyle(isVisible, "fade-left", 300)}
@@ -103,26 +101,26 @@ export default function About() {
                         </h3>
                         <div className="flex flex-wrap gap-3">
                             {skills.map((skill, i) => (
-                                <span
-                                    key={skill.name}
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium border bg-gradient-to-br backdrop-blur-sm cursor-default ${categoryColors[skill.category]}`}
-                                    style={{
-                                        opacity: isVisible ? 1 : 0,
-                                        transform: isVisible ? "translateY(0) scale(1)" : "translateY(16px) scale(0.9)",
-                                        transitionProperty: "opacity, transform",
-                                        transitionDuration: "0.5s",
-                                        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                                        transitionDelay: isVisible ? `${i * 40 + 400}ms` : "0ms",
-                                    }}
-                                >
-                                    {skill.name}
-                                </span>
+                                <SkillTooltip key={skill.name} content={skill.tooltip}>
+                                    <span
+                                        className={`px-4 py-2 rounded-xl text-sm font-medium border bg-gradient-to-br backdrop-blur-sm cursor-default ${categoryColors[skill.category]}`}
+                                        style={{
+                                            opacity: isVisible ? 1 : 0,
+                                            transform: isVisible ? "translateY(0) scale(1)" : "translateY(16px) scale(0.9)",
+                                            transitionProperty: "opacity, transform",
+                                            transitionDuration: "0.5s",
+                                            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                                            transitionDelay: isVisible ? `${i * 40 + 400}ms` : "0ms",
+                                        }}
+                                    >
+                                        {skill.name}
+                                    </span>
+                                </SkillTooltip>
                             ))}
                         </div>
 
-                        {/* Category legend */}
                         <div
-                            className="flex flex-wrap gap-4 mt-8 text-xs text-gray-500"
+                            className="flex flex-wrap gap-4 mt-8 text-xs text-gray-400"
                             style={getRevealStyle(isVisible, "fade-up", 1200)}
                         >
                             <span className="flex items-center gap-1.5">

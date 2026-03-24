@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { useEffect, useState } from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
+import { useEasedCounter } from "@/hooks/useEasedCounter";
 import { PuzzleIcon, StarIcon, TrophyIcon, AcademicCapIcon } from "./Icons";
 
 const stats = [
@@ -24,22 +24,9 @@ const topics = [
     "Dynamic Programming", "Bit Manipulation", "Greedy Algorithms", "Backtracking",
 ];
 
-function AnimatedCounter({ target, suffix, isVisible }: { target: number; suffix: string; isVisible: boolean }) {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        if (!isVisible) return;
-        const duration = 2000;
-        const steps = 60;
-        const increment = target / steps;
-        let current = 0;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) { setCount(target); clearInterval(timer); }
-            else { setCount(Math.floor(current)); }
-        }, duration / steps);
-        return () => clearInterval(timer);
-    }, [isVisible, target]);
-    return <span>{count}{suffix}</span>;
+function AnimatedCounter({ target, suffix, delay = 0 }: { target: number; suffix: string; delay?: number }) {
+    const { ref, displayValue } = useEasedCounter({ target, duration: 1600, delay });
+    return <span ref={ref}>{displayValue}{suffix}</span>;
 }
 
 export default function DSAStats() {
@@ -47,69 +34,82 @@ export default function DSAStats() {
 
     return (
         <section id="dsa" ref={sectionRef} className="relative py-24 md:py-32 px-4 sm:px-6">
-            <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.3), transparent)" }} />
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="blob blob--purple blob--xs absolute bottom-10 left-10 opacity-15" />
+            </div>
 
             <div className="max-w-6xl mx-auto">
-                {/* Header */}
                 <div className="mb-16" style={getRevealStyle(isVisible, "fade-up", 0)}>
                     <span className="text-sm font-medium tracking-widest uppercase text-amber-400 mb-3 block">DSA & Problem Solving</span>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
                         Coding <span className="gradient-text">Consistency</span>
                     </h2>
-                    <p className="text-gray-500 max-w-xl text-base sm:text-lg">
+                    <p className="text-gray-400 max-w-xl text-base sm:text-lg">
                         Solving problems daily to sharpen algorithmic thinking and ace those FAANG interviews.
                     </p>
                 </div>
 
-                {/* Stats Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
                     {stats.map((stat, i) => (
                         <div
                             key={stat.label}
-                            className={`glass-card p-6 text-center hover:shadow-lg ${stat.glow}`}
+                            className={`glass-card glass-card--dsa p-6 text-center hover:shadow-lg ${stat.glow}`}
                             style={getRevealStyle(isVisible, "scale-in", i * 100 + 200)}
                         >
                             <span className="mb-3 block flex justify-center">{stat.icon}</span>
                             <div className={`text-3xl sm:text-4xl font-bold mb-1 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                                <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
+                                <AnimatedCounter target={stat.value} suffix={stat.suffix} delay={i * 150 + 200} />
                             </div>
-                            <p className="text-gray-500 text-sm">{stat.label}</p>
+                            <p className="text-gray-400 text-sm">{stat.label}</p>
                         </div>
                     ))}
                 </div>
 
+                {/* Progress towards goal */}
+                <div className="mb-12 max-w-md mx-auto" style={getRevealStyle(isVisible, "fade-up", 700)}>
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-400">Progress to 600 problems</span>
+                        <span className="text-sm font-semibold text-white">500 / 600</span>
+                    </div>
+                    <div className="w-full h-2.5 rounded-full bg-white/[0.06] border border-white/5 overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-500"
+                            style={{
+                                width: isVisible ? "83.3%" : "0%",
+                                transition: "width 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s",
+                            }}
+                        />
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1.5 text-right">83% complete</p>
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-8">
-                    {/* Platform Cards */}
                     <div style={getRevealStyle(isVisible, "fade-right", 500)}>
                         <h3 className="text-lg font-semibold text-white mb-4">Platforms</h3>
                         <div className="space-y-4">
                             {platforms.map((p, i) => (
                                 <div
                                     key={p.name}
-                                    className={`p-5 rounded-xl border ${p.borderColor} ${p.bgColor} hover:border-opacity-50 group`}
-                                    style={{
-                                        ...getRevealStyle(isVisible, "fade-right", i * 100 + 600),
-                                        transitionProperty: "opacity, transform, border-color",
-                                    }}
+                                    className={`p-5 rounded-xl border ${p.borderColor} ${p.bgColor} hover:border-opacity-50`}
+                                    style={getRevealStyle(isVisible, "fade-right", i * 100 + 600)}
                                 >
                                     <div className="flex items-center justify-between mb-2">
                                         <h4 className={`font-bold text-lg ${p.color}`}>{p.name}</h4>
                                         <span className="text-white font-semibold text-lg">{p.problems}</span>
                                     </div>
-                                    <p className="text-gray-500 text-sm">{p.highlight}</p>
+                                    <p className="text-gray-400 text-sm">{p.highlight}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Topics */}
                     <div style={getRevealStyle(isVisible, "fade-left", 500)}>
                         <h3 className="text-lg font-semibold text-white mb-4">Topics Mastered</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 xs:grid-cols-2 gap-3">
                             {topics.map((topic, i) => (
                                 <div
                                     key={topic}
-                                    className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-purple-500/20"
+                                    className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-purple-500/20 transition-colors duration-200"
                                     style={{
                                         opacity: isVisible ? 1 : 0,
                                         transform: isVisible ? "translateX(0)" : "translateX(-16px)",

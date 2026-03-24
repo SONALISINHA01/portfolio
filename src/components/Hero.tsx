@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import TiltCard from "./TiltCard";
+import ParticleBackground from "./ParticleBackground";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 
 const roles = [
     "Machine Learning Engineer",
@@ -55,36 +57,29 @@ export default function Hero() {
         <section
             id="hero"
             ref={sectionRef}
-            className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 pt-24 sm:pt-28"
         >
-            {/* Background Orbs - parallax on scroll */}
-            <div className="absolute inset-0 pointer-events-none">
+            {/* Particle constellation background */}
+            <ParticleBackground
+                maxParticlesDesktop={90}
+                maxParticlesMobile={45}
+                connectionDistance={130}
+                parallaxStrength={15}
+            />
+
+            {/* Blob Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div
-                    className="absolute top-1/4 left-1/4 w-40 sm:w-72 h-40 sm:h-72 rounded-full animate-float"
-                    style={{
-                        background:
-                            "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)",
-                        filter: "blur(40px)",
-                        transform: `translateY(${parallax(-0.15)}px)`,
-                    }}
+                    className="blob blob--purple blob--lg absolute -top-20 -left-20 animate-float"
+                    style={{ transform: `translateY(${parallax(-0.15)}px)` }}
                 />
                 <div
-                    className="absolute top-1/3 right-1/4 w-56 sm:w-96 h-56 sm:h-96 rounded-full animate-float-delay"
-                    style={{
-                        background:
-                            "radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%)",
-                        filter: "blur(50px)",
-                        transform: `translateY(${parallax(-0.25)}px)`,
-                    }}
+                    className="blob blob--cyan blob--md absolute top-1/3 right-10 animate-float-delay"
+                    style={{ transform: `translateY(${parallax(-0.25)}px)` }}
                 />
                 <div
-                    className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full animate-float-slow"
-                    style={{
-                        background:
-                            "radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%)",
-                        filter: "blur(45px)",
-                        transform: `translateY(${parallax(-0.1)}px)`,
-                    }}
+                    className="blob blob--pink blob--sm absolute bottom-20 left-1/3 animate-float-slow"
+                    style={{ transform: `translateY(${parallax(-0.1)}px)` }}
                 />
                 {/* Grid overlay - moves slightly with scroll */}
                 <div
@@ -129,11 +124,14 @@ export default function Hero() {
                                 <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.9)]" />
                             </div>
 
-                            <div className="relative w-full h-full rounded-full overflow-hidden border border-white/20 bg-black/30">
-                                <img
+                            <div className="relative w-full h-full rounded-full overflow-hidden border border-white/20">
+                                <ImageWithSkeleton
                                     src="/professional-photo.jpg"
-                                    alt="Sonali profile photo"
-                                    className="w-full h-full object-cover"
+                                    alt="Sonali Sinha — ML Engineer headshot"
+                                    fill
+                                    sizes="144px"
+                                    priority
+                                    className="object-cover"
                                 />
                             </div>
                         </div>
@@ -150,12 +148,12 @@ export default function Hero() {
                 <div className="h-10 sm:h-12 flex items-center justify-center mb-6 sm:mb-8">
                     <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-400 font-light">
                         {displayText}
-                        <span className="inline-block w-0.5 h-7 bg-purple-400 ml-1 animate-pulse" />
+                        <span className="inline-block w-0.5 h-7 bg-purple-400 ml-1 cursor-blink" />
                     </span>
                 </div>
 
                 {/* Description */}
-                <p className="text-sm sm:text-base md:text-lg text-gray-500 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
                     I enjoy turning ambitious ideas into reliable products - from ML experiments to clean, production-ready systems people can trust.
                     <br className="hidden sm:block" />
                     <span className="text-gray-400">500+ DSA problems solved</span> ·{" "}
@@ -167,24 +165,25 @@ export default function Hero() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a
                         href="#projects"
-                        className="group w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold text-sm sm:text-base hover:shadow-xl hover:shadow-purple-500/25 flex items-center justify-center gap-2"
-                        style={{ transitionProperty: "box-shadow, transform", transitionDuration: "0.3s" }}
+                        className="gradient-border group w-full sm:w-auto"
                     >
-                        View Projects
-                        <svg
-                            className="w-5 h-5 group-hover:translate-x-1"
-                            style={{ transitionProperty: "transform", transitionDuration: "0.2s" }}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
+                        <div className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 text-white font-semibold text-sm sm:text-base">
+                            View Projects
+                            <svg
+                                className="w-5 h-5 group-hover:translate-x-1"
+                                style={{ transitionProperty: "transform", transitionDuration: "0.2s" }}
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                />
+                            </svg>
+                        </div>
                     </a>
                     <a
                         href="/resume.pdf"
