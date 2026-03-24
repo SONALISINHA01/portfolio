@@ -114,6 +114,7 @@ const projects = [
         previewImage: "/projects/leetify-placeholder.png",
         previewAlt: "Leetify Dashboard Preview",
         github: "https://github.com/SONALISINHA01/Leetify",
+        demo: "https://leetfiy.vercel.app/",
         color: "purple",
     },
 ];
@@ -200,9 +201,9 @@ export default function Projects() {
                                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1100px"
                                                 />
                                                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none">
-                                                    <span className={`inline-flex items-center gap-2 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full border ${project.color === "purple" ? "text-purple-200 border-purple-300/30 bg-purple-500/20" : "text-cyan-100 border-cyan-300/30 bg-cyan-500/20"}`}>
-                                                        {project.id === 1 ? "Live ML App Preview" : "Scheduler Visualization Preview"}
-                                                    </span>
+                                                     <span className={`inline-flex items-center gap-2 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full border ${project.color === "purple" ? "text-purple-200 border-purple-300/30 bg-purple-500/20" : "text-cyan-100 border-cyan-300/30 bg-cyan-500/20"}`}>
+                                                         {project.id === 1 ? "Live ML App Preview" : (project.id === 3 ? "Leetify Visualisation" : "Scheduler Visualization Preview")}
+                                                     </span>
                                                 </div>
                                             </div>
                                         </div>

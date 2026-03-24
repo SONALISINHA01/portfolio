@@ -99,7 +99,7 @@ export default function About() {
                         <h3 className="text-lg font-semibold text-white mb-6">
                             Tech Arsenal
                         </h3>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-5">
                             {skills.map((skill, i) => (
                                 <SkillTooltip key={skill.name} content={skill.tooltip}>
                                     <span
@@ -149,7 +149,7 @@ export default function About() {
                             <h4 className="text-sm font-semibold uppercase tracking-wider text-rose-300 mb-4">
                                 Soft Skills
                             </h4>
-                            <div className="flex flex-wrap gap-2.5">
+                            <div className="flex flex-wrap gap-4">
                                 {softSkills.map((skill, i) => (
                                     <span
                                         key={skill}
