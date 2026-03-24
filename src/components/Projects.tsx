@@ -84,7 +84,7 @@ const projects = [
     },
     {
         id: 3,
-        title: "Leetfiy",
+        title: "Leetify",
         hook: "AI-powered coding profile analyzer for LeetCode, Codeforces, and GitHub",
         description:
             "A comprehensive analytics dashboard that aggregates competitive programming profiles. Features deep analysis including submission heatmaps, topic weakness radar charts, and percentile trackers with a premium UI.",
@@ -111,9 +111,9 @@ const projects = [
             },
         ],
         tags: ["Next.js", "TypeScript", "TailwindCSS", "Recharts"],
-        previewImage: "/projects/leetfiy-placeholder.png",
-        previewAlt: "Leetfiy Dashboard Preview",
-        github: "https://github.com/SONALISINHA01/Leetfiy",
+        previewImage: "/projects/leetify-placeholder.png",
+        previewAlt: "Leetify Dashboard Preview",
+        github: "https://github.com/SONALISINHA01/Leetify",
         color: "purple",
     },
 ];
