@@ -100,23 +100,26 @@ export default function About() {
                             Tech Arsenal
                         </h3>
                         <div className="flex flex-wrap gap-5">
-                            {skills.map((skill, i) => (
-                                <SkillTooltip key={skill.name} content={skill.tooltip}>
-                                    <span
-                                        className={`px-4 py-2 rounded-xl text-sm font-medium border bg-gradient-to-br backdrop-blur-sm cursor-default ${categoryColors[skill.category]}`}
-                                        style={{
-                                            opacity: isVisible ? 1 : 0,
-                                            transform: isVisible ? "translateY(0) scale(1)" : "translateY(16px) scale(0.9)",
-                                            transitionProperty: "opacity, transform",
-                                            transitionDuration: "0.5s",
-                                            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                                            transitionDelay: isVisible ? `${i * 40 + 400}ms` : "0ms",
-                                        }}
-                                    >
-                                        {skill.name}
-                                    </span>
-                                </SkillTooltip>
-                            ))}
+                            {skills.map((skill, i) => {
+                                const waveDelay = Math.round(Math.sin(i * 0.3) * 200 + i * 30);
+                                return (
+                                    <SkillTooltip key={skill.name} content={skill.tooltip}>
+                                        <span
+                                            className={`px-4 py-2 rounded-xl text-sm font-medium border bg-gradient-to-br backdrop-blur-sm cursor-default ${categoryColors[skill.category]}`}
+                                            style={{
+                                                opacity: isVisible ? 1 : 0,
+                                                transform: isVisible ? "translateY(0) scale(1)" : "translateY(16px) scale(0.9)",
+                                                transitionProperty: "opacity, transform",
+                                                transitionDuration: "0.5s",
+                                                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                                                transitionDelay: isVisible ? `${waveDelay + 400}ms` : "0ms",
+                                            }}
+                                        >
+                                            {skill.name}
+                                        </span>
+                                    </SkillTooltip>
+                                );
+                            })}
                         </div>
 
                         <div
@@ -150,21 +153,24 @@ export default function About() {
                                 Soft Skills
                             </h4>
                             <div className="flex flex-wrap gap-4">
-                                {softSkills.map((skill, i) => (
-                                    <span
-                                        key={skill}
-                                        className="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border border-rose-400/25 bg-gradient-to-br from-rose-500/20 to-rose-600/10 text-rose-200"
-                                        style={{
-                                            opacity: isVisible ? 1 : 0,
-                                            transform: isVisible ? "translateY(0)" : "translateY(10px)",
-                                            transitionProperty: "opacity, transform",
-                                            transitionDuration: "0.45s",
-                                            transitionDelay: isVisible ? `${i * 45 + 1350}ms` : "0ms",
-                                        }}
-                                    >
-                                        {skill}
-                                    </span>
-                                ))}
+                                {softSkills.map((skill, i) => {
+                                    const waveDelay = Math.round(Math.sin(i * 0.3) * 150 + i * 35);
+                                    return (
+                                        <span
+                                            key={skill}
+                                            className="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border border-rose-400/25 bg-gradient-to-br from-rose-500/20 to-rose-600/10 text-rose-200"
+                                            style={{
+                                                opacity: isVisible ? 1 : 0,
+                                                transform: isVisible ? "translateY(0)" : "translateY(10px)",
+                                                transitionProperty: "opacity, transform",
+                                                transitionDuration: "0.45s",
+                                                transitionDelay: isVisible ? `${waveDelay + 1350}ms` : "0ms",
+                                            }}
+                                        >
+                                            {skill}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

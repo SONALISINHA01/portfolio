@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
 import { siteConfig } from "@/lib/config";
 import { GlobeAltIcon, CodeBracketIcon, AcademicCapIcon, BeakerIcon } from "./Icons";
+import { useToast } from "./Toast";
 
 interface FieldErrors {
     name?: string;
@@ -16,21 +17,29 @@ const socials = [
         name: "GitHub",
         url: "https://github.com/SONALISINHA01",
         icon: <CodeBracketIcon className="w-5 h-5" />,
+        glowClass: "social-link--github",
+        iconColor: "text-gray-400 group-hover:text-purple-400",
     },
     {
         name: "LinkedIn",
         url: "https://in.linkedin.com/in/sonali-sinha-244853299",
         icon: <GlobeAltIcon className="w-5 h-5" />,
+        glowClass: "social-link--linkedin",
+        iconColor: "text-gray-400 group-hover:text-purple-400",
     },
     {
         name: "LeetCode",
         url: "https://leetcode.com/u/kinglessworldsking/",
         icon: <AcademicCapIcon className="w-5 h-5" />,
+        glowClass: "social-link--leetcode",
+        iconColor: "text-gray-400 group-hover:text-amber-400",
     },
     {
         name: "Email",
         url: `mailto:${siteConfig.contactEmail}`,
         icon: <BeakerIcon className="w-5 h-5" />,
+        glowClass: "social-link--email",
+        iconColor: "text-gray-400 group-hover:text-pink-400",
     },
 ];
 
@@ -67,9 +76,10 @@ function validateForm(formData: FormData): FieldErrors {
 
 export default function Contact() {
     const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.1 });
-    const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+    const [formStatus, setFormStatus] = useState<"idle" | "sending" | "error">("idle");
     const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
     const [touched, setTouched] = useState<Record<string, boolean>>({});
+    const { showToast } = useToast();
 
     const handleBlur = useCallback((e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -105,17 +115,19 @@ export default function Contact() {
             });
             const data = await res.json();
             if (data.success === "true" || data.success === true) {
-                setFormStatus("sent");
+                setFormStatus("idle");
                 form.reset();
                 setFieldErrors({});
                 setTouched({});
-                setTimeout(() => setFormStatus("idle"), 4000);
+                showToast("Message sent! I'll get back to you soon.", "success");
             } else {
                 setFormStatus("error");
+                showToast("Something went wrong. Please try again.", "error");
                 setTimeout(() => setFormStatus("idle"), 4000);
             }
         } catch {
             setFormStatus("error");
+            showToast("Network error. Please try again.", "error");
             setTimeout(() => setFormStatus("idle"), 4000);
         }
     };
@@ -197,17 +209,13 @@ export default function Contact() {
                             </div>
                             <button
                                 type="submit" disabled={formStatus === "sending"}
-                                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100"
+                                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100 relative overflow-hidden"
                                 style={{ transitionProperty: "box-shadow, transform, opacity", transitionDuration: "0.3s" }}
                             >
                                 {formStatus === "idle" && "Send Message"}
                                 {formStatus === "sending" && "Sending..."}
-                                {formStatus === "sent" && "✓ Message Sent!"}
-                                {formStatus === "error" && "✕ Failed — Try Again"}
+                                {formStatus === "error" && "Failed — Try Again"}
                             </button>
-                            {formStatus === "sent" && (
-                                <p className="text-emerald-400 text-xs text-center" role="status">Thanks! I&apos;ll get back to you soon.</p>
-                            )}
                         </form>
                     </div>
 
@@ -219,9 +227,9 @@ export default function Contact() {
                                     <a
                                         key={s.name} href={s.url}
                                         {...(s.url.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                                        className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 group transition-colors duration-200"
+                                        className={`social-link ${s.glowClass} flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 group transition-colors duration-200`}
                                     >
-                                        <span className="text-gray-400 group-hover:text-purple-400 transition-colors duration-200">{s.icon}</span>
+                                        <span className={`social-link__icon ${s.iconColor} transition-colors duration-200`}>{s.icon}</span>
                                         <span className="text-gray-400 group-hover:text-white text-sm font-medium transition-colors duration-200">{s.name}</span>
                                         <svg className="w-4 h-4 text-gray-700 group-hover:text-gray-400 ml-auto group-hover:translate-x-1 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -1,9 +1,66 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import TiltCard from "./TiltCard";
 import ParticleBackground from "./ParticleBackground";
 import ImageWithSkeleton from "./ImageWithSkeleton";
+
+function useRipple() {
+    const createRipple = useCallback((e: React.MouseEvent<HTMLElement>) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const el = e.currentTarget;
+        const rect = el.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2;
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        const ripple = document.createElement("span");
+        ripple.className = "btn-ripple";
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        el.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove());
+    }, []);
+    return { createRipple };
+}
+
+function useMagneticHover(ref: React.RefObject<HTMLElement | null>) {
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        let rafId = 0;
+        const intensity = 0.3;
+
+        const handleMove = (e: MouseEvent) => {
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                const rect = el.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = (e.clientX - cx) * intensity;
+                const dy = (e.clientY - cy) * intensity;
+                el.style.transform = `translate(${dx}px, ${dy}px)`;
+            });
+        };
+
+        const handleLeave = () => {
+            cancelAnimationFrame(rafId);
+            el.style.transform = "";
+        };
+
+        el.addEventListener("mousemove", handleMove);
+        el.addEventListener("mouseleave", handleLeave);
+        return () => {
+            el.removeEventListener("mousemove", handleMove);
+            el.removeEventListener("mouseleave", handleLeave);
+            cancelAnimationFrame(rafId);
+        };
+    }, [ref]);
+}
 
 const roles = [
     "Machine Learning Engineer",
@@ -18,6 +75,11 @@ export default function Hero() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [scrollY, setScrollY] = useState(0);
     const sectionRef = useRef<HTMLElement>(null);
+    const viewProjectsRef = useRef<HTMLAnchorElement>(null);
+    const downloadResumeRef = useRef<HTMLAnchorElement>(null);
+    const { createRipple } = useRipple();
+    useMagneticHover(viewProjectsRef);
+    useMagneticHover(downloadResumeRef);
 
     // Typing animation
     useEffect(() => {
@@ -44,14 +106,26 @@ export default function Hero() {
         return () => clearTimeout(timeout);
     }, [displayText, isDeleting, roleIndex]);
 
-    // Parallax scroll tracking
+    // Parallax scroll tracking — throttled via rAF to avoid jank
     useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
+        let rafId = 0;
+        const handleScroll = () => {
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => setScrollY(window.scrollY));
+        };
         window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            cancelAnimationFrame(rafId);
+        };
     }, []);
 
     const parallax = (speed: number) => scrollY * speed;
+
+    // Hero fade: start fading at 300px, finish at 1400px — gives ample click time
+    const heroOpacity = Math.max(0, 1 - (scrollY - 300) / 1100);
+    // Only disable pointer events once fully invisible to preserve clickability
+    const heroPointerEvents = heroOpacity < 0.05 ? "none" : "auto";
 
     return (
         <section
@@ -97,8 +171,10 @@ export default function Hero() {
             <div
                 className="relative z-10 text-center px-2 sm:px-6 max-w-4xl mx-auto"
                 style={{
-                    opacity: Math.max(0, 1 - scrollY / 600),
-                    transform: `translateY(${parallax(0.2)}px)`,
+                    opacity: heroOpacity,
+                    pointerEvents: heroPointerEvents,
+                    transform: `translateY(${parallax(-0.12)}px)`,
+                    willChange: "opacity, transform",
                 }}
             >
                 {/* Status badge */}
@@ -156,43 +232,51 @@ export default function Hero() {
                 <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
                     I enjoy turning ambitious ideas into reliable products - from ML experiments to clean, production-ready systems people can trust.
                     <br className="hidden sm:block" />
-                    <span className="text-gray-400">550+ DSA problems solved</span> ·{" "}
+                    <span className="text-gray-400">500+ DSA problems solved</span> ·{" "}
                     <span className="text-gray-400">Systems mindset</span> ·{" "}
                     <span className="text-gray-400">ML in production</span>
                 </p>
 
                 {/* CTAs */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a
-                        href="#projects"
-                        className="gradient-border group w-full sm:w-auto"
-                    >
-                        <div className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 text-white font-semibold text-sm sm:text-base">
-                            View Projects
-                            <svg
-                                className="w-5 h-5 group-hover:translate-x-1"
-                                style={{ transitionProperty: "transform", transitionDuration: "0.2s" }}
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                            </svg>
-                        </div>
-                    </a>
-                    <a
-                        href="/resume.pdf"
-                        download="Sonali_Sinha_Resume.pdf"
-                        className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl glass text-gray-300 font-semibold text-sm sm:text-base hover:bg-white/10 text-center"
-                        style={{ transitionProperty: "background-color, transform", transitionDuration: "0.3s" }}
-                    >
-                        Download Resume
-                    </a>
+                <div className="flex flex-row items-center justify-center gap-4">
+                    <span className="cta-magnetic">
+                        <a
+                            ref={viewProjectsRef}
+                            href="#projects"
+                            onClick={createRipple}
+                            className="gradient-border group w-full sm:w-auto relative overflow-hidden"
+                        >
+                            <div className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 text-white font-semibold text-sm sm:text-base">
+                                View Projects
+                                <svg
+                                    className="w-5 h-5 group-hover:translate-x-1"
+                                    style={{ transitionProperty: "transform", transitionDuration: "0.2s" }}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    />
+                                </svg>
+                            </div>
+                        </a>
+                    </span>
+                    <span className="cta-magnetic">
+                        <a
+                            ref={downloadResumeRef}
+                            href="/resume.pdf"
+                            download="Sonali_Sinha_Resume.pdf"
+                            onClick={createRipple}
+                            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl glass text-gray-300 font-semibold text-sm sm:text-base hover:bg-white/10 text-center relative overflow-hidden"
+                            style={{ transitionProperty: "background-color, transform", transitionDuration: "0.3s" }}
+                        >
+                            Download Resume
+                        </a>
+                    </span>
                 </div>
 
             </div>

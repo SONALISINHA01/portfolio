@@ -2,6 +2,26 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
+function useRipple() {
+    const createRipple = useCallback((e: React.MouseEvent<HTMLElement>) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const el = e.currentTarget;
+        const rect = el.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2;
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        const ripple = document.createElement("span");
+        ripple.className = "btn-ripple";
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        el.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove());
+    }, []);
+    return { createRipple };
+}
+
 const navLinks = [
     { label: "About", href: "#about" },
     { label: "Projects", href: "#projects" },
@@ -18,6 +38,44 @@ export default function Navbar() {
     const [activeSection, setActiveSection] = useState<string>("");
     const toggleRef = useRef<HTMLButtonElement>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
+    const ctaRef = useRef<HTMLAnchorElement>(null);
+    const { createRipple } = useRipple();
+
+    // Magnetic hover for desktop CTA
+    useEffect(() => {
+        const el = ctaRef.current;
+        if (!el) return;
+        if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        let rafId = 0;
+        const intensity = 0.25;
+
+        const handleMove = (e: MouseEvent) => {
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                const rect = el.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = (e.clientX - cx) * intensity;
+                const dy = (e.clientY - cy) * intensity;
+                el.style.transform = `translate(${dx}px, ${dy}px)`;
+            });
+        };
+
+        const handleLeave = () => {
+            cancelAnimationFrame(rafId);
+            el.style.transform = "";
+        };
+
+        el.addEventListener("mousemove", handleMove);
+        el.addEventListener("mouseleave", handleLeave);
+        return () => {
+            el.removeEventListener("mousemove", handleMove);
+            el.removeEventListener("mouseleave", handleLeave);
+            cancelAnimationFrame(rafId);
+        };
+    }, []);
 
     // Track active section via IntersectionObserver
     useEffect(() => {
@@ -186,9 +244,11 @@ export default function Navbar() {
                 {/* Logo */}
                 <a
                     href="#"
-                    className="text-xl font-bold gradient-text tracking-tight"
+                    className="navbar-logo"
+                    aria-label="Sonali — Home"
                 >
-                    S.
+                    <span className="navbar-logo__text" aria-hidden="true">S</span>
+                    <span className="navbar-logo__dot" aria-hidden="true">.</span>
                 </a>
 
                 {/* Desktop Links */}
@@ -229,12 +289,16 @@ export default function Navbar() {
                 </button>
 
                 {/* CTA (Desktop) */}
-                <a
-                    href="#contact"
-                    className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
-                >
-                    Let&apos;s Talk
-                </a>
+                <span className="cta-magnetic hidden md:inline-flex">
+                    <a
+                        ref={ctaRef}
+                        href="#contact"
+                        onClick={createRipple}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 relative overflow-hidden"
+                    >
+                        Let&apos;s Talk
+                    </a>
+                </span>
 
                 {/* Mobile Menu Button */}
                 <button

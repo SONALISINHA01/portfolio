@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio UX Demo — IDs 14–17</title>
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --color-bg: #050208;
+      --color-surface: #0f0a1a;
+      --color-text: #e2e0e7;
+      --color-text-muted: #9ca3af;
+      --color-accent: #7c3aed;
+      --color-accent-light: #a78bfa;
+      --color-cyan: #06b6d4;
+      --color-pink: #ec4899;
+      --font-stack: 'Inter', system-ui, -apple-system, sans-serif;
+      --nav-height: 4rem;
+    }
+
+    /* ===== Reset ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== Focus Indicators ===== */
+    a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+      outline: 2px solid var(--color-accent-light);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* ===== Screen-Reader Only ===== */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* ===========================
+       ID 16: PAGE LOADER
+       =========================== */
+    #page-loader {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-bg);
+      transition: opacity 0.5s ease-out;
+    }
+    #page-loader.fading { opacity: 0; pointer-events: none; }
+    #page-loader.hidden  { display: none; }
+
+    .loader-logo {
+      font-size: 4rem; font-weight: 800; letter-spacing: -0.04em;
+      display: flex; align-items: baseline;
+      animation: loader-in 1.2s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .loader-s {
+      background: linear-gradient(135deg, #a78bfa, #06b6d4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      animation: pulse-glow 1.2s ease-in-out;
+    }
+    .loader-dot {
+      background: linear-gradient(135deg, #06b6d4, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      animation: dot-pop 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+    }
+    .loader-ring {
+      position: absolute; width: 120px; height: 120px; border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: rgba(124,58,237,0.5);
+      border-right-color: rgba(6,182,212,0.3);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes loader-in {
+      0%   { opacity: 0; transform: scale(0.3) translateY(20px); filter: blur(8px); }
+      60%  { opacity: 1; transform: scale(1.1) translateY(0); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    }
+    @keyframes pulse-glow {
+      0%,100% { filter: drop-shadow(0 0 0px rgba(124,58,237,0)); }
+      50%     { filter: drop-shadow(0 0 20px rgba(124,58,237,0.6)); }
+    }
+    @keyframes dot-pop {
+      0%   { transform: scale(0); }
+      60%  { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===========================
+       ID 15: NAVBAR LOGO HOVER
+       =========================== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(5,2,8,0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+
+    .navbar-logo {
+      display: inline-flex; align-items: baseline;
+      font-size: 1.25rem; font-weight: 700;
+      text-decoration: none; cursor: pointer;
+      perspective: 600px;
+    }
+    .navbar-logo__s {
+      display: inline-block;
+      background: linear-gradient(135deg, #a78bfa, #06b6d4, #ec4899);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 6s ease-in-out infinite;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), filter 0.3s ease;
+    }
+    .navbar-logo__dot {
+      display: inline-block;
+      background: linear-gradient(135deg, #06b6d4, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .navbar-logo:hover .navbar-logo__s,
+    .navbar-logo:focus-visible .navbar-logo__s {
+      transform: scale(1.15) rotateY(-12deg);
+      filter: drop-shadow(0 0 8px rgba(124,58,237,0.5));
+    }
+    .navbar-logo:hover .navbar-logo__dot,
+    .navbar-logo:focus-visible .navbar-logo__dot {
+      transform: scale(1.3) rotate(20deg);
+      filter: drop-shadow(0 0 6px rgba(6,182,212,0.6));
+    }
+
+    @keyframes shimmer {
+      0%,100% { background-position: 0% 50%; }
+      50%     { background-position: 100% 50%; }
+    }
+
+    .nav-links { display: flex; gap: 0.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--color-text-muted); text-decoration: none;
+      padding: 0.5rem 1rem; border-radius: 0.75rem; font-size: 0.875rem;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a[aria-current="true"] {
+      color: #fff; background: rgba(255,255,255,0.05);
+    }
+
+    /* ===========================
+       ID 14: TABLE OF CONTENTS
+       =========================== */
+    .toc {
+      position: fixed; left: 1.5rem; top: 50%; transform: translateY(-50%);
+      z-index: 40;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .toc.hidden { opacity: 0; pointer-events: none; transform: translateY(-50%) translateX(-20px); }
+
+    .toc-list {
+      list-style: none; display: flex; flex-direction: column; gap: 0.25rem;
+      position: relative; z-index: 2;
+    }
+    .toc-btn {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.375rem 0.5rem; border: none; background: transparent;
+      cursor: pointer; border-radius: 0.5rem; transition: background 0.2s;
+    }
+    .toc-btn:hover { background: rgba(255,255,255,0.04); }
+    .toc-btn:focus-visible { outline: 2px solid var(--color-accent-light); outline-offset: 2px; }
+
+    .toc-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                  background 0.3s, box-shadow 0.3s;
+    }
+    .toc-dot--future { background: rgba(255,255,255,0.2); }
+    .toc-dot--past   { background: rgba(124,58,237,0.5); box-shadow: 0 0 4px rgba(124,58,237,0.3); }
+    .toc-dot--active {
+      background: linear-gradient(135deg, #a78bfa, #06b6d4);
+      box-shadow: 0 0 10px rgba(124,58,237,0.5), 0 0 20px rgba(6,182,212,0.2);
+      transform: scale(1.4);
+    }
+
+    .toc-label {
+      font-size: 0.7rem; font-weight: 500; color: rgba(255,255,255,0.35);
+      white-space: nowrap; opacity: 0; transform: translateX(-4px);
+      transition: opacity 0.25s, transform 0.25s, color 0.25s;
+      pointer-events: none;
+    }
+    .toc-btn:hover .toc-label,
+    .toc-btn:focus-visible .toc-label { opacity: 1; transform: translateX(0); }
+    .toc-label--active { color: rgba(255,255,255,0.85); opacity: 1; transform: translateX(0); }
+
+    .toc-track {
+      position: absolute; left: 0.5rem; top: 0.375rem; bottom: 0.375rem;
+      width: 2px; background: rgba(255,255,255,0.06); border-radius: 1px;
+      z-index: 1; transform: translateX(4px);
+    }
+    .toc-track-fill {
+      width: 100%;
+      background: linear-gradient(180deg, #7c3aed, #06b6d4);
+      border-radius: 1px; transition: height 0.3s ease;
+    }
+
+    /* Hide ToC on mobile */
+    @media (max-width: 1024px) {
+      .toc { display: none; }
+    }
+
+    /* ===========================
+       ID 17: SCROLL REVEAL SECTIONS
+       =========================== */
+    .reveal-wrap { position: relative; overflow: hidden; }
+    .reveal-gradient {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      transition: opacity 0.8s ease-out;
+    }
+    .reveal-content {
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-wrap.visible .reveal-content { opacity: 1; transform: translateY(0); }
+
+    /* Graceful noscript degradation */
+    noscript ~ .reveal-content { opacity: 1; transform: none; }
+
+    /* ===== Section Styles ===== */
+    .demo-section {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem; position: relative;
+    }
+    .section-inner {
+      max-width: 48rem; width: 100%;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.25rem;
+      padding: 3rem;
+    }
+    .section-inner h2 {
+      font-size: 2rem; font-weight: 700; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #a78bfa, #06b6d4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-inner p { color: var(--color-text-muted); margin-bottom: 1rem; }
+    .section-tag {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--color-accent-light); margin-bottom: 0.75rem; display: block;
+    }
+
+    /* Different section accent colors */
+    .section--purple .section-tag { color: #a78bfa; }
+    .section--cyan   .section-tag { color: #22d3ee; }
+    .section--pink   .section-tag { color: #f472b6; }
+    .section--amber  .section-tag { color: #fbbf24; }
+
+    /* ===== Reduced Motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      #page-loader { display: none; }
+      .reveal-content { opacity: 1; transform: none; }
+      .reveal-gradient { opacity: 0; }
+      .navbar-logo__s, .navbar-logo__dot { animation: none; transition: none; }
+      .toc-label { opacity: 1; transform: none; }
+      .toc-dot { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       ID 16: PAGE LOADER OVERLAY
+       ============================ -->
+  <div id="page-loader" role="status" aria-label="Loading page">
+    <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+      <div class="loader-logo">
+        <span class="loader-s">S</span><span class="loader-dot">.</span>
+      </div>
+      <div class="loader-ring" aria-hidden="true"></div>
+    </div>
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <!-- ============================
+       ID 15: NAVBAR WITH LOGO HOVER
+       ============================ -->
+  <nav class="navbar" aria-label="Main navigation">
+    <a href="#hero" class="navbar-logo" aria-label="Home">
+      <span class="navbar-logo__s" aria-hidden="true">S</span><span class="navbar-logo__dot" aria-hidden="true">.</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero" aria-current="true">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================
+       ID 14: FLOATING TABLE OF CONTENTS
+       ============================ -->
+  <nav class="toc hidden" id="toc" aria-label="Table of contents">
+    <ul class="toc-list" role="list" id="toc-list">
+      <!-- Populated by JS from data-section attributes -->
+    </ul>
+    <div class="toc-track" aria-hidden="true">
+      <div class="toc-track-fill" id="toc-fill"></div>
+    </div>
+  </nav>
+
+  <!-- ============================
+       PAGE SECTIONS
+       ============================ -->
+  <main id="main-content" tabindex="-1">
+
+    <!-- Hero (no reveal wrapper — visible on load) -->
+    <section id="hero" class="demo-section" data-section="Home">
+      <div class="section-inner">
+        <span class="section-tag">Welcome</span>
+        <h2>Demo: IDs 14–17</h2>
+        <p>This standalone page demonstrates all four UX improvements:</p>
+        <ul style="color:var(--color-text-muted); padding-left:1.5rem; margin-bottom:1rem;">
+          <li><strong style="color:#a78bfa;">ID 14</strong> — Floating ToC sidebar with progress dots</li>
+          <li><strong style="color:#22d3ee;">ID 15</strong> — Navbar logo hover animation (scale + glow + rotate)</li>
+          <li><strong style="color:#f472b6;">ID 16</strong> — Page loading animation (branded "S." overlay)</li>
+          <li><strong style="color:#fbbf24;">ID 17</strong> — Smooth section transitions on scroll</li>
+        </ul>
+        <p>Scroll down to see sections fade in and the ToC track your position. Hover the "S." logo for the animation.</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <div class="reveal-wrap" data-reveal>
+      <div class="reveal-gradient" style="background:linear-gradient(180deg,rgba(124,58,237,0.06),transparent)" aria-hidden="true"></div>
+      <div class="reveal-content">
+        <section id="about" class="demo-section section--purple" data-section="About">
+          <div class="section-inner">
+            <span class="section-tag">About Me</span>
+            <h2>Bridging ML &amp; Engineering</h2>
+            <p>This section demonstrates the scroll-reveal transition. As you scroll into view, the content fades in from below while a subtle top gradient overlay dissipates.</p>
+            <p>The ToC sidebar dot for "About" becomes active with a glowing indicator, and the progress track fills proportionally.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="reveal-wrap" data-reveal>
+      <div class="reveal-gradient" style="background:linear-gradient(180deg,rgba(6,182,212,0.05),transparent)" aria-hidden="true"></div>
+      <div class="reveal-content">
+        <section id="projects" class="demo-section section--cyan" data-section="Projects">
+          <div class="section-inner">
+            <span class="section-tag">Featured Work</span>
+            <h2>Engineering Projects</h2>
+            <p>Each section is data-driven. To add a new section to the ToC, simply add a <code>data-section="Label"</code> attribute and an <code>id</code> to your section element.</p>
+            <p>The IntersectionObserver-based system automatically picks up new sections without code changes.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="reveal-wrap" data-reveal>
+      <div class="reveal-gradient" style="background:linear-gradient(180deg,rgba(245,158,11,0.05),transparent)" aria-hidden="true"></div>
+      <div class="reveal-content">
+        <section id="skills" class="demo-section section--amber" data-section="Skills">
+          <div class="section-inner">
+            <span class="section-tag">Tech Arsenal</span>
+            <h2>Skills &amp; Expertise</h2>
+            <p>Performance considerations are built in: scroll handlers use passive listeners, IntersectionObserver replaces scroll-position polling, and requestAnimationFrame ensures smooth 60fps transitions.</p>
+            <p>All animations respect <code>prefers-reduced-motion</code> — they instantly resolve to their final state for users who prefer reduced motion.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="reveal-wrap" data-reveal>
+      <div class="reveal-gradient" style="background:linear-gradient(180deg,rgba(236,72,153,0.05),transparent)" aria-hidden="true"></div>
+      <div class="reveal-content">
+        <section id="contact" class="demo-section section--pink" data-section="Contact">
+          <div class="section-inner">
+            <span class="section-tag">Get In Touch</span>
+            <h2>Let&apos;s Connect</h2>
+            <p>Keyboard accessibility: The ToC supports Arrow Up/Down, Home, and End keys for navigation. Each dot button has an <code>aria-label</code> and <code>aria-current</code> for the active section.</p>
+            <p>The navbar logo has <code>aria-label="Home"</code> and its decorative characters use <code>aria-hidden="true"</code>.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================
+       VANILLA JAVASCRIPT
+       ============================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ===== ID 16: PAGE LOADER ===== */
+      (function initLoader() {
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var loader = document.getElementById('page-loader');
+        if (!loader) return;
+
+        if (prefersReducedMotion) {
+          loader.classList.add('hidden');
+          return;
+        }
+
+        setTimeout(function () { loader.classList.add('fading'); }, 1200);
+        setTimeout(function () { loader.classList.add('hidden'); }, 1700);
+      })();
+
+      /* ===== ID 14: TABLE OF CONTENTS ===== */
+      (function initToC() {
+        var toc = document.getElementById('toc');
+        var tocList = document.getElementById('toc-list');
+        var tocFill = document.getElementById('toc-fill');
+        if (!toc || !tocList) return;
+
+        // Data-driven: collect sections from data-section attributes
+        var sectionEls = document.querySelectorAll('[data-section]');
+        var sections = [];
+        sectionEls.forEach(function (el) {
+          sections.push({ id: el.id, label: el.getAttribute('data-section') });
+        });
+
+        // Build ToC DOM
+        sections.forEach(function (sec, i) {
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.className = 'toc-btn';
+          btn.setAttribute('data-toc-index', i);
+          btn.setAttribute('aria-label', 'Navigate to ' + sec.label);
+          btn.innerHTML =
+            '<span class="toc-dot toc-dot--future"></span>' +
+            '<span class="toc-label">' + sec.label + '</span>';
+          btn.addEventListener('click', function () {
+            var target = document.getElementById(sec.id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+          btn.addEventListener('keydown', function (e) {
+            var idx = parseInt(btn.getAttribute('data-toc-index'), 10);
+            var targetIdx = -1;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+              e.preventDefault(); targetIdx = (idx + 1) % sections.length;
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+              e.preventDefault(); targetIdx = (idx - 1 + sections.length) % sections.length;
+            } else if (e.key === 'Home') {
+              e.preventDefault(); targetIdx = 0;
+            } else if (e.key === 'End') {
+              e.preventDefault(); targetIdx = sections.length - 1;
+            }
+            if (targetIdx >= 0) {
+              var nextBtn = tocList.querySelector('[data-toc-index="' + targetIdx + '"]');
+              if (nextBtn) nextBtn.focus();
+            }
+          });
+          li.appendChild(btn);
+          tocList.appendChild(li);
+        });
+
+        var activeId = '';
+
+        function updateToC() {
+          // Show/hide based on scroll past hero
+          var pastHero = window.scrollY > window.innerHeight * 0.5;
+          toc.classList.toggle('hidden', !pastHero);
+
+          // Find active section
+          var scrollY = window.scrollY + 200;
+          var activeIdx = -1;
+          for (var i = sections.length - 1; i >= 0; i--) {
+            var el = document.getElementById(sections[i].id);
+            if (el && el.offsetTop <= scrollY) {
+              activeId = sections[i].id;
+              activeIdx = i;
+              break;
+            }
+          }
+
+          // Update dots and labels
+          var btns = tocList.querySelectorAll('.toc-btn');
+          btns.forEach(function (btn, i) {
+            var dot = btn.querySelector('.toc-dot');
+            var label = btn.querySelector('.toc-label');
+            dot.className = 'toc-dot';
+            if (i === activeIdx) {
+              dot.classList.add('toc-dot--active');
+              label.classList.add('toc-label--active');
+              btn.setAttribute('aria-current', 'true');
+            } else if (i < activeIdx) {
+              dot.classList.add('toc-dot--past');
+              label.classList.remove('toc-label--active');
+              btn.removeAttribute('aria-current');
+            } else {
+              dot.classList.add('toc-dot--future');
+              label.classList.remove('toc-label--active');
+              btn.removeAttribute('aria-current');
+            }
+          });
+
+          // Update track fill
+          if (tocFill && activeIdx >= 0) {
+            tocFill.style.height = (activeIdx / (sections.length - 1)) * 100 + '%';
+          }
+        }
+
+        // Use requestAnimationFrame for smooth updates
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(function () {
+              updateToC();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateToC();
+      })();
+
+      /* ===== ID 17: SCROLL REVEAL SECTIONS ===== */
+      (function initReveal() {
+        var wraps = document.querySelectorAll('[data-reveal]');
+        if (!wraps.length) return;
+
+        if (typeof IntersectionObserver === 'undefined') {
+          // Graceful degradation: show everything
+          wraps.forEach(function (w) { w.classList.add('visible'); });
+          return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.08,
+          rootMargin: '0px 0px -50px 0px'
+        });
+
+        wraps.forEach(function (w) { observer.observe(w); });
+      })();
+
+    })();
+  </script>
+</body>
+</html>
