@@ -82,6 +82,40 @@ const projects = [
         github: "https://github.com/Yamini-Soni/Process-Visualization-Tool",
         color: "cyan",
     },
+    {
+        id: 3,
+        title: "Leetfiy",
+        hook: "AI-powered coding profile analyzer for LeetCode, Codeforces, and GitHub",
+        description:
+            "A comprehensive analytics dashboard that aggregates competitive programming profiles. Features deep analysis including submission heatmaps, topic weakness radar charts, and percentile trackers with a premium UI.",
+        highlights: [
+            {
+                icon: <ChartBarIcon className="w-6 h-6 text-purple-400" />,
+                title: "Deep Analytics",
+                text: "Visualizes submission heatmaps and topic weakness radar charts across multiple coding platforms.",
+            },
+            {
+                icon: <BoltIcon className="w-6 h-6 text-cyan-400" />,
+                title: "AI-Powered Insights",
+                text: "Provides actionable insights into coding performance and identifies areas for improvement.",
+            },
+            {
+                icon: <TrophyIcon className="w-6 h-6 text-amber-400" />,
+                title: "Percentile Tracking",
+                text: "Continuously monitors and tracks competitive programming percentiles globally.",
+            },
+            {
+                icon: <ComputerDesktopIcon className="w-6 h-6 text-emerald-400" />,
+                title: "Premium UI/UX",
+                text: "Built with Next.js and animated SVG components for an immersive user experience.",
+            },
+        ],
+        tags: ["Next.js", "TypeScript", "TailwindCSS", "Recharts"],
+        previewImage: "/projects/leetfiy-placeholder.png",
+        previewAlt: "Leetfiy Dashboard Preview",
+        github: "https://github.com/SONALISINHA01/Leetfiy",
+        color: "purple",
+    },
 ];
 
 export default function Projects() {
