@@ -6,16 +6,16 @@ import { useEasedCounter } from "@/hooks/useEasedCounter";
 import { PuzzleIcon, StarIcon, TrophyIcon, AcademicCapIcon } from "./Icons";
 
 const stats = [
-    { label: "Problems Solved", value: 500, suffix: "+", icon: <PuzzleIcon className="w-8 h-8 text-purple-400" />, color: "from-purple-500 to-purple-600", glow: "shadow-purple-500/20" },
+    { label: "Problems Solved", value: 550, suffix: "+", icon: <PuzzleIcon className="w-8 h-8 text-purple-400" />, color: "from-purple-500 to-purple-600", glow: "shadow-purple-500/20" },
     { label: "HackerRank Rating", value: 4, suffix: "★", icon: <StarIcon className="w-8 h-8 text-amber-400" />, color: "from-amber-500 to-yellow-500", glow: "shadow-amber-500/20" },
-    { label: "Contests Participated", value: 50, suffix: "+", icon: <TrophyIcon className="w-8 h-8 text-cyan-400" />, color: "from-cyan-500 to-blue-500", glow: "shadow-cyan-500/20" },
+    { label: "Contests Participated", value: 40, suffix: "+", icon: <TrophyIcon className="w-8 h-8 text-cyan-400" />, color: "from-cyan-500 to-blue-500", glow: "shadow-cyan-500/20" },
     { label: "Data Structures Mastered", value: 15, suffix: "+", icon: <AcademicCapIcon className="w-8 h-8 text-emerald-400" />, color: "from-emerald-500 to-green-500", glow: "shadow-emerald-500/20" },
 ];
 
 const platforms = [
     { name: "LeetCode", problems: "300+", highlight: "Arrays, Trees, DP, Graphs", color: "text-amber-400", borderColor: "border-amber-500/20", bgColor: "bg-amber-500/5" },
-    { name: "HackerRank", problems: "100+", highlight: "4★ Badge · Problem Solving", color: "text-emerald-400", borderColor: "border-emerald-500/20", bgColor: "bg-emerald-500/5" },
-    { name: "Codeforces", problems: "100+", highlight: "Competitive Programming", color: "text-blue-400", borderColor: "border-blue-500/20", bgColor: "bg-blue-500/5" },
+    { name: "HackerRank", problems: "50+", highlight: "4★ Badge · Problem Solving", color: "text-emerald-400", borderColor: "border-emerald-500/20", bgColor: "bg-emerald-500/5" },
+    { name: "Codeforces", problems: "200+", highlight: "Competitive Programming", color: "text-blue-400", borderColor: "border-blue-500/20", bgColor: "bg-blue-500/5" },
 ];
 
 const topics = [
@@ -69,18 +69,18 @@ export default function DSAStats() {
                 <div className="mb-12 max-w-md mx-auto" style={getRevealStyle(isVisible, "fade-up", 700)}>
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-sm text-gray-400">Progress to 600 problems</span>
-                        <span className="text-sm font-semibold text-white">500 / 600</span>
+                        <span className="text-sm font-semibold text-white">550 / 600</span>
                     </div>
                     <div className="w-full h-2.5 rounded-full bg-white/[0.06] border border-white/5 overflow-hidden">
                         <div
                             className="h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-500"
                             style={{
-                                width: isVisible ? "83.3%" : "0%",
+                                width: isVisible ? "91.7%" : "0%",
                                 transition: "width 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s",
                             }}
                         />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1.5 text-right">83% complete</p>
+                    <p className="text-xs text-gray-500 mt-1.5 text-right">92% complete</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">

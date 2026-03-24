@@ -1,10 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
 import { GlobeAltIcon } from "./Icons";
 
+const contributionChartSources = [
+    "https://github-readme-activity-graph.vercel.app/graph?username=SONALISINHA01&theme=tokyo-night&hide_border=true&area=true",
+    "https://ghchart.rshah.org/SONALISINHA01",
+];
+
 export default function OpenSource() {
     const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.15 });
+    const [chartSrcIndex, setChartSrcIndex] = useState(0);
+    const [chartFailed, setChartFailed] = useState(false);
 
     return (
         <section id="opensource" ref={sectionRef} className="relative py-24 md:py-32 px-4 sm:px-6">
@@ -72,12 +80,35 @@ export default function OpenSource() {
                 <div className="mt-12" style={getRevealStyle(isVisible, "fade-up", 900)}>
                     <h3 className="text-lg font-semibold text-white mb-4">GitHub Activity</h3>
                     <div className="glass-card p-4 sm:p-6 max-w-3xl">
-                        <img
-                            src="https://ghchart.rshah.org/SONALISINHA01"
-                            alt="GitHub contributions chart for SONALISINHA01"
-                            className="w-full h-auto opacity-80"
-                            loading="lazy"
-                        />
+                        {!chartFailed ? (
+                            <img
+                                src={contributionChartSources[chartSrcIndex]}
+                                alt="GitHub contributions chart for SONALISINHA01"
+                                className="w-full h-auto opacity-80"
+                                loading="lazy"
+                                referrerPolicy="no-referrer"
+                                onError={() => {
+                                    if (chartSrcIndex < contributionChartSources.length - 1) {
+                                        setChartSrcIndex(chartSrcIndex + 1);
+                                        return;
+                                    }
+                                    setChartFailed(true);
+                                }}
+                            />
+                        ) : (
+                            <p className="text-sm text-gray-400 text-center">
+                                Unable to load chart preview. View activity directly on{" "}
+                                <a
+                                    href="https://github.com/SONALISINHA01"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-cyan-300 hover:text-cyan-200"
+                                >
+                                    GitHub Profile
+                                </a>
+                                .
+                            </p>
+                        )}
                         <p className="text-xs text-gray-500 mt-3 text-center">Contribution activity from github.com/SONALISINHA01</p>
                     </div>
                 </div>

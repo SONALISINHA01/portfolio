@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sonali-portfolio.vercel.app"),
   title: "Sonali | ML Engineer & Software Developer",
   description:
-    "Portfolio of Sonali — Machine Learning Engineer | Systems Programmer | Problem Solver. 500+ DSA problems solved. Building production-grade ML systems.",
+    "Portfolio of Sonali — Machine Learning Engineer | Systems Programmer | Problem Solver. 550+ DSA problems solved. Building production-grade ML systems.",
   keywords: [
     "Machine Learning Engineer",
     "Software Developer",
@@ -29,14 +29,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sonali | ML Engineer & Software Developer",
     description:
-      "ML Engineer & Systems Programmer — Building production-grade ML systems with 500+ DSA problems solved.",
+      "ML Engineer & Systems Programmer — Building production-grade ML systems with 550+ DSA problems solved.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Sonali | ML Engineer & Software Developer",
     description:
-      "ML Engineer & Systems Programmer — Building production-grade ML systems with 500+ DSA problems solved.",
+      "ML Engineer & Systems Programmer — Building production-grade ML systems with 550+ DSA problems solved.",
   },
 };
 

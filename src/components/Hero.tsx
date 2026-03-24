@@ -156,7 +156,7 @@ export default function Hero() {
                 <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
                     I enjoy turning ambitious ideas into reliable products - from ML experiments to clean, production-ready systems people can trust.
                     <br className="hidden sm:block" />
-                    <span className="text-gray-400">500+ DSA problems solved</span> ·{" "}
+                    <span className="text-gray-400">550+ DSA problems solved</span> ·{" "}
                     <span className="text-gray-400">Systems mindset</span> ·{" "}
                     <span className="text-gray-400">ML in production</span>
                 </p>
