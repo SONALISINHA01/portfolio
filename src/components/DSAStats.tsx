@@ -2,14 +2,13 @@
 
 import React from "react";
 import { useScrollReveal, getRevealStyle } from "@/hooks/useScrollAnimations";
-import { useEasedCounter } from "@/hooks/useEasedCounter";
 import { PuzzleIcon, StarIcon, TrophyIcon, AcademicCapIcon } from "./Icons";
 
 const stats = [
     { label: "Problems Solved", value: 550, suffix: "+", icon: <PuzzleIcon className="w-8 h-8 text-purple-400" />, color: "from-purple-500 to-purple-600", glow: "shadow-purple-500/20" },
     { label: "HackerRank Rating", value: 4, suffix: "★", icon: <StarIcon className="w-8 h-8 text-amber-400" />, color: "from-amber-500 to-yellow-500", glow: "shadow-amber-500/20" },
-    { label: "Contests Participated", value: 40, suffix: "+", icon: <TrophyIcon className="w-8 h-8 text-cyan-400" />, color: "from-cyan-500 to-blue-500", glow: "shadow-cyan-500/20" },
-    { label: "Data Structures Mastered", value: 15, suffix: "+", icon: <AcademicCapIcon className="w-8 h-8 text-emerald-400" />, color: "from-emerald-500 to-green-500", glow: "shadow-emerald-500/20" },
+    { label: "Contests Participated", value: 30, suffix: "+", icon: <TrophyIcon className="w-8 h-8 text-cyan-400" />, color: "from-cyan-500 to-blue-500", glow: "shadow-cyan-500/20" },
+    { label: "Topics Mastered", value: 40, suffix: "+", icon: <AcademicCapIcon className="w-8 h-8 text-emerald-400" />, color: "from-emerald-500 to-green-500", glow: "shadow-emerald-500/20" },
 ];
 
 const platforms = [
@@ -23,11 +22,6 @@ const topics = [
     "Binary Search", "Linked Lists", "Trees & BST", "Graphs & BFS/DFS",
     "Dynamic Programming", "Bit Manipulation", "Greedy Algorithms", "Backtracking",
 ];
-
-function AnimatedCounter({ target, suffix, delay = 0 }: { target: number; suffix: string; delay?: number }) {
-    const { ref, displayValue } = useEasedCounter({ target, duration: 1600, delay });
-    return <span ref={ref}>{displayValue}{suffix}</span>;
-}
 
 export default function DSAStats() {
     const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.1 });
@@ -58,7 +52,7 @@ export default function DSAStats() {
                         >
                             <span className="mb-3 block flex justify-center">{stat.icon}</span>
                             <div className={`text-3xl sm:text-4xl font-bold mb-1 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                                <AnimatedCounter target={stat.value} suffix={stat.suffix} delay={i * 150 + 200} />
+                                {stat.value}{stat.suffix}
                             </div>
                             <p className="text-gray-400 text-sm">{stat.label}</p>
                         </div>
